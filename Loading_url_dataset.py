@@ -15,15 +15,21 @@ import pandas as pd
 
 #import the urllib module for python 3, 
 #which provides a high-level interface for retrieving files across the World Wide Web
-import urllib3
+import urllib
 
-
-urlRequest = urllib.request.Request(myUrl)
 #specify the URL string and store it in a local object
 myUrl = "http://aima.cs.berkeley.edu/data/iris.csv"
 
 #make a request by passing our URL string as a parameter 
 #into the request class constructor of the urllib request module
-urlRequest = urllib3.request.Request(myUrl)
+urlRequest = urllib.request.Request(myUrl)
 
-#Got this error: AttributeError: 'module' object has no attribute 'request'
+#use the URL open function to open our URL request
+iris_file = urllib.request.urlopen(urlRequest)
+
+#call the pandas read_csv function to load the csv data into our current name space.
+iris_fromUrl = pd.read_csv(iris_file, sep=',', header = None, decimal = ',', names = ['sepal_lenght', 'sepal_width', 'petal_lenght', 'petal_width', 'target']) 
+
+#with the csv data loaded, we may test data access by obtaining the first six rows of 
+#data from our URL retrieved csv file
+iris_fromUrl.head(6)
